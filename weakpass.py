@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import sys
 from datetime import datetime
 
@@ -50,12 +49,26 @@ specials = [
 # to remove duplicates
 wpwdlist = list()
 
-# let's mix
-for x in caseTypes:
-    for y in numbers:
-        for z in specials:
-            wpwdlist.append(x+z+y)
-            wpwdlist.append(x+y+z)
+
+if len(sys.argv) > 2:
+    # the big mix
+    for x in caseTypes:
+        for y in numbers:
+            for z in specials:
+                wpwdlist.append(x+z+y)
+                wpwdlist.append(x+y+z)
+                wpwdlist.append(y+x+z)
+                wpwdlist.append(y+z+x)
+                wpwdlist.append(z+y+x)                
+                wpwdlist.append(z+x+y)    
+else:
+    # the small mix
+    for x in caseTypes:
+        for y in numbers:
+            for z in specials:
+                wpwdlist.append(x+z+y)
+                wpwdlist.append(x+y+z)
+          
 
 output = list(dict.fromkeys(wpwdlist))
 
