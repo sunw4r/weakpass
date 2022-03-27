@@ -8,7 +8,7 @@ from datetime import datetime
 parser = argparse.ArgumentParser(description="My parser")
 parser.add_argument('-b',"--big",action='store_true',help="generate more permutations of passwords")
 parser.add_argument('-c',"--complete",default=False, action='store_true',help="if you generated the small list first, this one will provide missing permutations")
-parser.add_argument('-d',required=True,action='store', type=str,help="Domain to be used in the emails")
+parser.add_argument('-d',required=True,action='store', type=str,help="Domain to be used in permutations")
 parsed_args = parser.parse_args()
 
 
