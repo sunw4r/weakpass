@@ -1,9 +1,22 @@
 #!/usr/bin/env python
+import argparse
 import sys
 from datetime import datetime
 
+#getting arguments from CLI
+
+parser = argparse.ArgumentParser(description="My parser")
+parser.add_argument('-b',"--big",action='store_true',help="generate more permutations of passwords")
+parser.add_argument('-c',"--complete",default=False, action='store_true',help="if you generated the small list first, this one will provide missing permutations")
+parser.add_argument('-d',required=True,action='store', type=str,help="Domain to be used in the emails")
+parsed_args = parser.parse_args()
+
+
+
+
+
 # target variations
-company = str(sys.argv[1]).lower()
+company = parsed_args.d.lower()
 companyCap = company.capitalize()
 companyFullCap = company.upper()
 
@@ -50,7 +63,7 @@ specials = [
 wpwdlist = list()
 
 
-if len(sys.argv) > 2:
+if (parsed_args.big == True):
     # the big mix
     for x in caseTypes:
         for y in numbers:
@@ -60,7 +73,20 @@ if len(sys.argv) > 2:
                 wpwdlist.append(y+x+z)
                 wpwdlist.append(y+z+x)
                 wpwdlist.append(z+y+x)                
-                wpwdlist.append(z+x+y)    
+                wpwdlist.append(z+x+y)   
+
+elif parsed_args.complete == True:
+
+    # completing the mix 
+
+      for x in caseTypes:
+        for y in numbers:
+            for z in specials:
+                wpwdlist.append(y+x+z)
+                wpwdlist.append(y+z+x)
+                wpwdlist.append(z+y+x)                
+                wpwdlist.append(z+x+y)   
+
 else:
     # the small mix
     for x in caseTypes:
