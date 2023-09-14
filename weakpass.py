@@ -3,27 +3,45 @@ import argparse
 import sys
 from datetime import datetime
 
-#getting arguments from CLI
+# banner
+print('''
+          _______  _______  _        _______  _______  _______  _______         _ 
+|\     /|(  ____ \(  ___  )| \    /\(  ____ )(  ___  )(  ____ \(  ____ \       / )
+| )   ( || (    \/| (   ) ||  \  / /| (    )|| (   ) || (    \/| (    \/   _  / / 
+| | _ | || (__    | (___) ||  (_/ / | (____)|| (___) || (_____ | (_____   (_)( (  
+| |( )| ||  __)   |  ___  ||   _ (  |  _____)|  ___  |(_____  )(_____  )     | |  
+| || || || (      | (   ) ||  ( \ \ | (      | (   ) |      ) |      ) |   _ ( (  
+| () () || (____/\| )   ( ||  /  \ \| )      | )   ( |/\____) |/\____) |  (_) \ \ 
+(_______)(_______/|/     \||_/    \/|/       |/     \|\_______)\_______)       \_)
+                                                                                  
+''')
 
-parser = argparse.ArgumentParser(description="My parser")
-parser.add_argument('-b',"--big",action='store_true',help="generate more permutations of passwords")
-parser.add_argument('-c',"--complete",default=False, action='store_true',help="if you generated the small list first, this one will provide missing permutations")
-parser.add_argument('-d',required=True,action='store', type=str,help="Domain to be used in permutations")
+# getting arguments from CLI
+parser = argparse.ArgumentParser(description="Weak Pass Suggestions :(")
+
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('-b','--big',action='store_true',help="generate more permutations of passwords (recommended for offline brute)")
+group.add_argument('-w','--web',action='store_true',help="generate a little amount of permutations (recommended for online spray)")
+
+parser.add_argument('-c','--company',required=True,action='store', type=str,help="Company Name (one word) to be used in permutations")
+parser.add_argument('-o','--output',action='store', type=str,help="File to store the passwords. If not specified will show on stdout")
+
 parsed_args = parser.parse_args()
 
-
-
-
-
 # target variations
-company = parsed_args.d.lower()
+company = parsed_args.company.lower()
 companyCap = company.capitalize()
 companyFullCap = company.upper()
 
 caseTypes = [
-    company, 
     companyCap, 
+    company, 
     companyFullCap
+]
+
+webCaseTypes = [
+    companyCap, 
+    company
 ]
 
 # numbers variations
@@ -50,6 +68,12 @@ numbers = [
     "12345"
 ]
 
+webNumbers = [
+    currentYear,
+    currentYearM,
+    "123"
+]
+
 # special chars
 specials = [
     "@",
@@ -59,9 +83,13 @@ specials = [
     "#"
 ]
 
-# to remove duplicates
-wpwdlist = list()
+webSpecials = [
+    "@",
+    ""
+]
 
+# to remove duplicates after
+wpwdlist = list()
 
 if (parsed_args.big == True):
     # the big mix
@@ -75,36 +103,22 @@ if (parsed_args.big == True):
                 wpwdlist.append(z+y+x)                
                 wpwdlist.append(z+x+y)   
 
-elif parsed_args.complete == True:
-
-    # completing the mix 
-
-      for x in caseTypes:
-        for y in numbers:
-            for z in specials:
-                wpwdlist.append(y+x+z)
-                wpwdlist.append(y+z+x)
-                wpwdlist.append(z+y+x)                
-                wpwdlist.append(z+x+y)   
-
-else:
-    # the small mix
-    for x in caseTypes:
-        for y in numbers:
-            for z in specials:
+elif parsed_args.web == True:
+    # web mix
+    for x in webCaseTypes:
+        for y in webNumbers:
+            for z in webSpecials:
                 wpwdlist.append(x+z+y)
-                wpwdlist.append(x+y+z)
           
-
 output = list(dict.fromkeys(wpwdlist))
 
-for wpwd in output:
-    print(wpwd);
+# print or save to file
+if parsed_args.output:
+    with open(parsed_args.output, 'w') as f:
+        for wpwd in output:
+            f.write(f"{wpwd}\n")
+else:
+    for wpwd in output:
+        print(wpwd);
 
-#generics
-print("Sucesso1!")
-print("Sucesso10!")
-print("Mudar@123")
-print("Mudar123")
-print("mudar@123")
-print("mudar123")
+
