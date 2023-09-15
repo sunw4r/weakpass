@@ -1,24 +1,51 @@
-# weakpass
-Very basic weak passwords generator for Red Teams
-
-
-<br>
-
-### Usage  <br>
-
-For small list (330 possibilities)
-
+<div align="center">
+  
 ```
-python3 weakpass.py -d targetname
+          _______  _______  _        _______  _______  _______  _______         _ 
+|\     /|(  ____ \(  ___  )| \    /\(  ____ )(  ___  )(  ____ \(  ____ \       / )
+| )   ( || (    \/| (   ) ||  \  / /| (    )|| (   ) || (    \/| (    \/   _  / / 
+| | _ | || (__    | (___) ||  (_/ / | (____)|| (___) || (_____ | (_____   (_)( (  
+| |( )| ||  __)   |  ___  ||   _ (  |  _____)|  ___  |(_____  )(_____  )     | |  
+| || || || (      | (   ) ||  ( \ \ | (      | (   ) |      ) |      ) |   _ ( (  
+| () () || (____/\| )   ( ||  /  \ \| )      | )   ( |/\____) |/\____) |  (_) \ \ 
+(_______)(_______/|/     \||_/    \/|/       |/     \|\_______)\_______)       \_)
+```    
+</div>
+
+<p align="center">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/sunw4r/weakpass?color=56BEB8">
+
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/sunw4r/weakpass?color=56BEB8">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/sunw4r/weakpass?color=56BEB8">
+
+  <img alt="License" src="https://img.shields.io/github/license/sunw4r/weakpass?color=56BEB8">
+</p>
+
+## ##
+
+`weakpass` is a basic script that automates the generation of weak and standardized passwords. Designed to be a simple but valuable tool during the initial phase of security tests.
+
+## Installation ##
+
+Clone the repository
+
+## Usage ##
+
+To get a list of options:
+```
+python3 weakpass.py -h
 ```
 
-For big list (942 possibilities)
+Example for a small list focused on a web spraying attack:
+```
+python3 weakpass.py --company microsoft --web 
+```
 
+Example for a big list focused on brute force cracking (eg: hashcat):
 ```
-python3 weakpass.py -d targetname -b
+python3 weakpass.py --company microsoft --big --output mscrack.txt 
 ```
-
-If you made a small list and want to complete the big one
-```
-python3 weakpass.py -d targetname -c 
-```
+<div align="center">
+<img src="https://raw.githubusercontent.com/sunw4r/assets/master/weakpass_sample.png"/>
+</div>
