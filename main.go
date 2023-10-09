@@ -27,7 +27,7 @@ func main() {
 	// Command line arguments
 	bigFlag := flag.Bool("b", false, "Generate more permutations of passwords (recommended for offline brute)")
 	webFlag := flag.Bool("w", true, "Generate a smaller amount of permutations (recommended for online spray)")
-	companyFlag := flag.String("c", "", "Company Name (one word) to be used in permutations")
+	companyFlag := flag.String("c", "", "Company Names (comma-separated) to be used in permutations")
 	outputFlag := flag.String("o", "", "File to store the passwords. If not specified, it will be printed to stdout")
 	flag.Parse()
 
@@ -36,61 +36,65 @@ func main() {
 		os.Exit(1)
 	}
 
-	company := strings.ToLower(*companyFlag)
-	companyCap := strings.Title(company)
-	companyFullCap := strings.ToUpper(company)
-
-	caseTypes := []string{companyCap, company, companyFullCap}
-	webCaseTypes := []string{companyCap, company}
-
-	currentYear := time.Now().Year()
-	currentYearM := currentYear - 1
-	currentYearMM := currentYear - 2
-	currentYearMMM := currentYear - 3
-	currentYearMMMM := currentYear - 4
-	currentYearMMMMM := currentYear - 5
-	currentYearP := currentYear + 1
-
-	numbers := []string{
-		fmt.Sprintf("%d", currentYear),
-		fmt.Sprintf("%d", currentYearM),
-		fmt.Sprintf("%d", currentYearMM),
-		fmt.Sprintf("%d", currentYearMMM),
-		fmt.Sprintf("%d", currentYearMMMM),
-		fmt.Sprintf("%d", currentYearMMMMM),
-		fmt.Sprintf("%d", currentYearP),
-		"1",
-		"12",
-		"123",
-		"1234",
-		"12345",
-	}
-
-	webNumbers := []string{
-		fmt.Sprintf("%d", currentYear),
-		fmt.Sprintf("%d", currentYearM),
-		"123",
-	}
-
-	specials := []string{"@", "", "!", "*", "#"}
-
-	webSpecials := []string{"@", ""}
+	// Split the comma-separated company names
+	companyNames := strings.Split(*companyFlag, ",")
 
 	var wpwdlist []string
 
-	if *bigFlag {
-		for _, x := range caseTypes {
-			for _, y := range numbers {
-				for _, z := range specials {
-					wpwdlist = append(wpwdlist, x+z+y, x+y+z, y+x+z, y+z+x, z+y+x, z+x+y)
+	for _, company := range companyNames {
+		company := strings.ToLower(company)
+		companyCap := strings.Title(company)
+		companyFullCap := strings.ToUpper(company)
+		caseTypes := []string{companyCap, company, companyFullCap}
+		webCaseTypes := []string{companyCap, company}
+
+		currentYear := time.Now().Year()
+		currentYearM := currentYear - 1
+		currentYearMM := currentYear - 2
+		currentYearMMM := currentYear - 3
+		currentYearMMMM := currentYear - 4
+		currentYearMMMMM := currentYear - 5
+		currentYearP := currentYear + 1
+
+		numbers := []string{
+			fmt.Sprintf("%d", currentYear),
+			fmt.Sprintf("%d", currentYearM),
+			fmt.Sprintf("%d", currentYearMM),
+			fmt.Sprintf("%d", currentYearMMM),
+			fmt.Sprintf("%d", currentYearMMMM),
+			fmt.Sprintf("%d", currentYearMMMMM),
+			fmt.Sprintf("%d", currentYearP),
+			"1",
+			"12",
+			"123",
+			"1234",
+			"12345",
+		}
+
+		webNumbers := []string{
+			fmt.Sprintf("%d", currentYear),
+			fmt.Sprintf("%d", currentYearM),
+			"123",
+		}
+
+		specials := []string{"@", "", "!", "*", "#"}
+
+		webSpecials := []string{"@", ""}
+
+		if *bigFlag {
+			for _, x := range caseTypes {
+				for _, y := range numbers {
+					for _, z := range specials {
+						wpwdlist = append(wpwdlist, x+z+y, x+y+z, y+x+z, y+z+x, z+y+x, z+x+y)
+					}
 				}
 			}
-		}
-	} else if *webFlag {
-		for _, x := range webCaseTypes {
-			for _, y := range webNumbers {
-				for _, z := range webSpecials {
-					wpwdlist = append(wpwdlist, x+z+y)
+		} else if *webFlag {
+			for _, x := range webCaseTypes {
+				for _, y := range webNumbers {
+					for _, z := range webSpecials {
+						wpwdlist = append(wpwdlist, x+z+y)
+					}
 				}
 			}
 		}

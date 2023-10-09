@@ -46,6 +46,12 @@ Example for a big list focused on brute force cracking (eg: hashcat):
 ```
 weakpass -c microsoft -b -o mscrack.txt 
 ```
+
+Example for multi companies:
+```
+weakpass -c microsoft,xbox,skype -b -o mscrack.txt 
+```
+
 <div align="center">
 <img src="https://raw.githubusercontent.com/sunw4r/assets/master/weakpass_sample.png"/>
 </div>
