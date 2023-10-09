@@ -28,23 +28,23 @@
 
 ## Installation ##
 
-Clone the repository
+go install github.com/phor3nsic/weakpass@latest
 
 ## Usage ##
 
 To get a list of options:
 ```
-python3 weakpass.py -h
+weakpass -h
 ```
 
 Example for a small list focused on a web spraying attack:
 ```
-python3 weakpass.py --company microsoft --web 
+weakpass -c microsoft -w
 ```
 
 Example for a big list focused on brute force cracking (eg: hashcat):
 ```
-python3 weakpass.py --company microsoft --big --output mscrack.txt 
+weakpass -c microsoft -b -o mscrack.txt 
 ```
 <div align="center">
 <img src="https://raw.githubusercontent.com/sunw4r/assets/master/weakpass_sample.png"/>
